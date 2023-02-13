@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>fuyan-boot-demo-dependencies</artifactId>
+        <groupId>com.fuyan.boot.demo</groupId>
+        <version>${revision}</version>
+        <relativePath>../fuyan-boot-demo-dependencies</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>fuyan-boot-demo-parent</artifactId>
+    <packaging>pom</packaging>
+    <name>Fuyan Boot Demo Parent</name>
+    <description>Fuyan Boot Demo Parent</description>
+    <modules>
+        <module>fuyan-boot-demo-starters</module>
+    </modules>
+
+    <properties>
+        <main.basedir>${basedir}/../..</main.basedir>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
+    </properties>
+    <build>
+        <plugins>
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>build-helper-maven-plugin</artifactId>
+            <executions>
+                <execution>
+                    <id>regex-property</id>
+                    <goals>
+                        <goal>regex-property</goal>
+                    </goals>
+                    <configuration>
+                        <name>modulename</name>
+                        <value>${project.artifactId}</value>
+                        <regex>-</regex>
+                        <replacement>.</replacement>
+                        <failIfNoMatch>true</failIfNoMatch>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>flatten-maven-plugin</artifactId>
+            <inherited>true</inherited>
+            <executions>
+                <execution>
+                    <!-- Tidy up all POMs before they are published -->
+                    <id>flatten</id>
+                    <phase>process-resources</phase>
+                    <goals>
+                        <goal>flatten</goal>
+                    </goals>
+                    <configuration>
+                        <updatePomFile>true</updatePomFile>
+                        <flattenMode>oss</flattenMode>
+                        <pomElements>
+                            <parent>expand</parent>
+                            <distributionManagement>remove</distributionManagement>
+                            <repositories>remove</repositories>
+                        </pomElements>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+                <source>${java.version}</source>
+                <target>${java.version}</target>
+                <parameters>true</parameters>
+            </configuration>
+        </plugin>
+        </plugins>
+    </build>
+</project>

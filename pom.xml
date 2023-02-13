@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.fuyan.boot.demo</groupId>
+    <artifactId>fuyan-boot-demo</artifactId>
+    <packaging>pom</packaging>
+    <version>${revision}</version>
+    <modules>
+        <module>fuyan-boot-demo-project</module>
+    </modules>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.2.8.RELEASE</version>
+    </parent>
+
+    <name>fuyan-boot-demo</name>
+    <description>common utils,components,middle-ware and starters for fuyan</description>
+
+    <distributionManagement>
+        <repository>
+            <id>maven-releases</id>
+            <url>http://nexus.yingyingwork.com/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>maven-snapshots</id>
+            <url>http://nexus.yingyingwork.com/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+    <properties>
+        <revision>1.0.2</revision>
+        <main.basedir>${basedir}</main.basedir>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
+        <spring.boot.version>2.2.8.RELEASE</spring.boot.version>
+    </properties>
+
+    <build>
+        <plugins>
+            <!-- 编译JAR包 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+            <!-- 源码包 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.diffplug.spotless</groupId>
+                <artifactId>spotless-maven-plugin</artifactId>
+                <version>1.20.0</version>
+                <configuration>
+                    <formats>
+                        <format>
+                            <!-- define the files to apply to -->
+                            <includes>
+                                <include>*.md</include>
+                                <include>.gitignore</include>
+                            </includes>
+                            <!-- define the steps to apply to those files -->
+                            <trimTrailingWhitespace></trimTrailingWhitespace>
+                            <endWithNewline></endWithNewline>
+                            <indent>
+                                <!-- <tabs>true</tabs>-->
+                                <spaces>true</spaces>
+                                <spacesPerTab>4</spacesPerTab>
+                            </indent>
+                        </format>
+                        <format>
+                            <includes>
+                                <include>**/pom.xml</include>
+                                <include>**/*.vm</include>
+                                <include>**/*.yml</include>
+                                <include>**/*.yaml</include>
+                                <include>*.md</include>
+                                <include>.gitignore</include>
+                            </includes>
+                            <excludes>
+                                <exclude>.idea/**</exclude>
+                                <exclude>.git/**</exclude>
+                                <exclude>devops/**</exclude>
+                            </excludes>
+                            <!-- define the steps to apply to those files -->
+                            <trimTrailingWhitespace></trimTrailingWhitespace>
+                            <endWithNewline></endWithNewline>
+                            <indent>
+                                <!--<tabs>true</tabs>-->
+                                <spaces>true</spaces>
+                                <spacesPerTab>2</spacesPerTab>
+                            </indent>
+                        </format>
+                    </formats>
+                    <java>
+                        <googleJavaFormat>
+                            <version>1.7</version>
+                            <style>GOOGLE</style>
+                        </googleJavaFormat>
+                        <removeUnusedImports></removeUnusedImports>
+                        <licenseHeader>
+                            <content>/* fuyan.com Inc. Copyright (c) $YEAR All Rights Reserved. */</content>
+                        </licenseHeader>
+                    </java>
+                </configuration>
+                <executions>
+                    <execution>
+                        <!-- Runs in compile phase to fail fast in case of formatting issues.-->
+                        <id>spotless-check</id>
+                        <goals>
+                            <goal>apply</goal>
+                        </goals>
+                        <phase>process-sources</phase>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>
